@@ -1,4 +1,4 @@
-import "@mantine/core/styles.css";
+import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
 
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import {
@@ -8,6 +8,12 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import mantineStyles from "@mantine/core/styles.css?url";
+import theme from "./theme/theme";
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: mantineStyles },
+];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -20,7 +26,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>{children}</MantineProvider>
+        <MantineProvider theme={theme} forceColorScheme="dark">
+          {children}
+        </MantineProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

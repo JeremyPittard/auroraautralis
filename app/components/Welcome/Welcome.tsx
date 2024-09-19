@@ -1,10 +1,11 @@
-import { Title, Text, Anchor } from "@mantine/core";
+import { Title, Text, Anchor, useMantineTheme } from "@mantine/core";
 import classes from "./Welcome.module.css";
 
 export function Welcome() {
+  const theme = useMantineTheme();
   return (
     <>
-      <Title className={classes.title} ta="center" mt={100}>
+      <Title className={classes.title} ta="center" mt={100} c={"bright-pink.1"}>
         Welcome to{" "}
         <Text
           inherit
@@ -15,9 +16,9 @@ export function Welcome() {
           Mantine
         </Text>
       </Title>
-      <Text color="dimmed" ta="center" size="lg" maw={580} mx="auto" mt="xl">
-        This starter Remix project includes a minimal setup for server side
-        rendering, if you want to learn more on Mantine + Remix integration
+      <Text ta="center" size="lg" maw={580} mx="auto" mt="xl" c={"white"}>
+        This starter Remixdsadsa project includes a minimal setup for server
+        side rendering, if you want to learn more on Mantine + Remix integration
         follow{" "}
         <Anchor href="https://mantine.dev/guides/remix/" size="lg">
           this guide

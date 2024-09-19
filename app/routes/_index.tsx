@@ -1,6 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Welcome } from "~/components/Welcome/Welcome";
-import { ColorSchemeToggle } from "~/components/ColorSchemeToggle/ColorSchemeToggle";
+import DisplayLatitude from "~/components/display-latitude";
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,8 +11,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <div>
-      <Welcome />
-      <ColorSchemeToggle />
+      <DisplayLatitude />
     </div>
   );
 }
