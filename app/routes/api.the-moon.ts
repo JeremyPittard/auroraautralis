@@ -58,7 +58,7 @@ const fetchMoonData = async (query: string, url: string, key: string) => {
   // Store in cache
   DailyMoonCache.set(cacheKey, data);
 
-  return data;
+  return json(data, { status: 200 });
 };
 
 export const loader: LoaderFunction = async () => {
