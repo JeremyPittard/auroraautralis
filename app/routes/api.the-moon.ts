@@ -1,5 +1,7 @@
 import { json } from "@remix-run/node";
 import type { LoaderFunction } from "@remix-run/node";
+import createDailyCache from "~/utils/create-daily-cache";
+import getAndParseEnvironmentVariable from "~/utils/environment-vars";
 
 interface Location {
   name: string;
@@ -32,43 +34,20 @@ interface ApiResponse {
   astronomy: Astronomy;
 }
 
-const API_KEY = "61d42f221dc143a1b02130608241909";
-const API_URL = "http://api.weatherapi.com/v1/astronomy.json";
-
 // Simple in-memory cache
-const cache: { [key: string]: { data: ApiResponse; date: string } } = {};
+const DailyMoonCache = createDailyCache();
 
-// Set the time when the cache should reset (e.g., 00:00 UTC)
-const CACHE_RESET_HOUR = 0;
-const CACHE_RESET_MINUTE = 0;
-
-const shouldRefreshCache = (date: string): boolean => {
-  const now = new Date();
-  const cacheDate = new Date(date);
-
-  // Check if it's a new day and past the reset time
-  return (
-    now.getUTCDate() !== cacheDate.getUTCDate() ||
-    now.getUTCMonth() !== cacheDate.getUTCMonth() ||
-    now.getUTCFullYear() !== cacheDate.getUTCFullYear() ||
-    now.getUTCHours() > CACHE_RESET_HOUR ||
-    (now.getUTCHours() === CACHE_RESET_HOUR &&
-      now.getUTCMinutes() >= CACHE_RESET_MINUTE)
-  );
-};
-
-const fetchMoonData = async (query: string) => {
+const fetchMoonData = async (query: string, url: string, key: string) => {
   const cacheKey = `astronomy_${query}`;
-  const now = new Date().toISOString();
 
-  // Check if we have a valid cached response
-  if (cache[cacheKey] && !shouldRefreshCache(cache[cacheKey].date)) {
-    console.log("Returning cached data for", query);
-    return cache[cacheKey].data;
+  const cachedData = DailyMoonCache.get(cacheKey);
+  if (cachedData) {
+    console.log("return of the cache", cachedData);
+    return cachedData;
   }
 
   console.log("Fetching fresh data for", query);
-  const response = await fetch(`${API_URL}?key=${API_KEY}&q=${query}`);
+  const response = await fetch(`${url}?key=${key}&q=${query}`);
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -77,17 +56,18 @@ const fetchMoonData = async (query: string) => {
   const data: ApiResponse = await response.json();
 
   // Store in cache
-  cache[cacheKey] = { data: data, date: now };
+  DailyMoonCache.set(cacheKey, data);
 
   return data;
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const url = new URL(request.url);
-  const query = url.searchParams.get("q") || "Australia";
+export const loader: LoaderFunction = async () => {
+  const API_KEY = getAndParseEnvironmentVariable(process.env.MOON_API_KEY!);
+  const API_URL = getAndParseEnvironmentVariable(process.env.MOON_API_URL!);
+  const query = "Australia";
 
   try {
-    const moonDeets = await fetchMoonData(query);
+    const moonDeets = await fetchMoonData(query, API_URL!, API_KEY!);
 
     return json(moonDeets, { status: 200 });
   } catch (error) {
