@@ -1,5 +1,7 @@
+import { AppShell } from "@mantine/core";
 import type { MetaFunction } from "@remix-run/node";
-import DisplayLatitude from "~/components/display-latitude";
+import Faq from "~/components/faq";
+import Hero from "~/components/hero/Hero";
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,8 +12,9 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div>
-      <DisplayLatitude />
-    </div>
+    <AppShell.Main>
+      <Hero />
+      <Faq />
+    </AppShell.Main>
   );
 }
