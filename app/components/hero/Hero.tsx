@@ -1,7 +1,6 @@
 import { Container, Text, Button, Group, useMantineTheme } from "@mantine/core";
 import { GithubIcon } from "@mantinex/dev-icons";
 import classes from "./hero.module.css";
-import DisplayLatitude from "../display-latitude";
 
 const Hero = () => {
   const theme = useMantineTheme();
@@ -11,7 +10,7 @@ const Hero = () => {
       <div className={classes.aurora}></div>
       <Container size={700} className={classes.inner}>
         <h1 className={classes.title}>
-          A{" "}
+          0{" "}
           <Text
             component="span"
             variant="gradient"
@@ -25,12 +24,11 @@ const Hero = () => {
           </Text>{" "}
           React components and hooks library
         </h1>
-        <DisplayLatitude />
 
-        <Text className={classes.description} color="dimmed">
-          Build fully functional accessible web applications with ease – Mantine
-          includes more than 100 customizable components and hooks to cover you
-          in any situation
+        <Text className={classes.description}>
+          000Build fully functional accessible web applications with ease –
+          Mantine] includes more than 100 customizable components and hooks to
+          cover you in any situation
         </Text>
 
         <Group className={classes.controls}>

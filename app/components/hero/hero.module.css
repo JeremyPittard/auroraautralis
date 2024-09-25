@@ -50,13 +50,14 @@
 }
 
 .title {
-  font-family: Greycliff CF, var(--mantine-font-family);
+  /* font-family: Greycliff CF, var(--mantine-font-family); */
+  font-family: "Atkinson Hyperlegible", sans-serif;
   font-size: rem(62px);
   font-weight: 900;
   line-height: 1.1;
   margin: 0;
   padding: 0;
-  color: var(--mantine-color-white);
+  color: var(--mantine-color-pale-blue-4);
 
   @media (max-width: $mantine-breakpoint-sm) {
     font-size: rem(42px);

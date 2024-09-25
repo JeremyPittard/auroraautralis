@@ -4,6 +4,11 @@ type faq = {
 };
 
 export const faqList: faq[] = [
+  {
+    question: "Why do you need my location?",
+    answer:
+      "we show your current lattitude to use alongside the other data we show",
+  },
   { question: "why the ads?", answer: "servers cost money" },
   {
     question: "wtf is this",
